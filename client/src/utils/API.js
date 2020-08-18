@@ -8,4 +8,7 @@ export default {
     create: function(send) {
         return axios.post(`${burl}/phonebook/create`, send, {headers: headers});
     },
+    get: function(recieve) {
+        return axios.get(`${burl}/phonebook/search?search=` + recieve, {headers: headers});
+    }
 };

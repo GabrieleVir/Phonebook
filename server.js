@@ -40,9 +40,8 @@ app.use(function(req, res, next) {
     next();
 });
 
-//Définition du routeur
 const router = express.Router();
-app.use("/phonebook", router);
+app.use("/Phonebook", router);
 require(__dirname + "/controllers/phonebookController")(router);
 
 //Définition et mise en place du port d'écoute
