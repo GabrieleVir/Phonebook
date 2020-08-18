@@ -12,7 +12,7 @@ export class PhonebookList extends React.Component {
     };
 
     componentDidMount = async () => {
-        const results = await API.get("");
+        const results = await API.fetchBySearch("");
         if (results.status === 200) {
             await this.setState({phonebooks: results.data.phonebooks.reverse()})
         }
@@ -21,7 +21,7 @@ export class PhonebookList extends React.Component {
     recieve = async () => {
         const { search } = this.state.search;
         try {
-            const results = await API.get("");
+            const results = await API.fetchBySearch("");
             if (results.status === 200) {
                 this.setState({phonebooks: results.data.phonebooks});
             }

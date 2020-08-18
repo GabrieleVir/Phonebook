@@ -1,19 +1,19 @@
 import React from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import API from "../../utils/API";
+import {sanitizeString} from '../../utils/utils'
 
-export class CreatePhonebook extends React.Component {
+export class CreatePhonebookForm extends React.Component {
     state = {
         first_name: "",
         last_name: "",
         phonenumber: "",
-        phonebooks: [],
     };
 
     send = async () => {
         let { first_name, last_name, phonenumber } = this.state;
-        const sanitized_first_name = first_name ? first_name.trim() : '';
-        last_name = last_name ? last_name.trim() : '';
+        first_name = first_name ? sanitizeString(first_name.trim()) : '';
+        last_name = last_name ? sanitizeString(last_name.trim()) : '';
         phonenumber = phonenumber ? phonenumber.trim() : '';
         if (first_name.length === 0 || last_name.length === 0) {
             window.flash("First name or last name empty, please insert a first name and last name", 'error');
@@ -28,10 +28,6 @@ export class CreatePhonebook extends React.Component {
         try {
             const { data } = await API.create({ first_name, last_name, phonenumber });
             window.flash(data['text']);
-            const results = await API.get("");
-            if (results.status === 200) {
-                await this.setState({phonebooks: results.data.phonebooks});
-            }
             this.props.history.push('/')
         } catch (error) {
             window.flash("The server responded with a 400 error", 'error');

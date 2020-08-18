@@ -10,7 +10,7 @@ export class PhonebookItem extends React.Component {
                 <td>{phonebook.first_name}</td>
                 <td>{phonebook.last_name}</td>
                 <td>{phonebook.phonenumber}</td>
-                <td><Link to="/edit">Edit</Link></td>
+                <td><Link to={`/edit/${phonebook._id}`}>Edit</Link></td>
             </tr>
         );
     }

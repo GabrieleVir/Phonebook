@@ -1,9 +1,7 @@
-//Définition des modules
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
-//Connexion à la base de donnée
 mongoose
     .connect("mongodb://localhost/db", { useNewUrlParser: true, useUnifiedTopology: true  })
     .then(() => {
@@ -14,10 +12,9 @@ mongoose
         console.log(e);
     });
 
-//On définit notre objet express nommé app
+mongoose.set('useCreateIndex', true)
 const app = express();
 
-//Body Parser
 const urlencodedParser = bodyParser.urlencoded({
     extended: true
 });
