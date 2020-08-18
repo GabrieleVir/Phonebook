@@ -1,39 +1,15 @@
 const Phonebook = require("../../schema/schemaPhonebook.js");
 const {validationResult} = require('express-validator');
-
-async function alreadyExists(phonebook) {
-    try {
-        const findPhonebook = await Phonebook.findOne({
-            first_name: phonebook.first_name,
-            last_name: phonebook.last_name,
-            phonenumber: phonebook.phonenumber,
-        });
-        if (findPhonebook) {
-            return 0;
-        }
-        return 1;
-    } catch (error) {
-        return -1;
-    }
-
-}
+const {sanitizeString, errorManager} = require('./utils.js');
 
 async function createPhonebook(req, res) {
-    const errors = validationResult(req);
-    const { first_name, last_name, phonenumber } = req.body;
-    const trimmed_first_name = first_name ?  first_name.trim() : '';
-    const trimmed_last_name = last_name ? last_name.trim() : '';
-    const trimmed_phonenumber = phonenumber ? phonenumber.trim() : '';
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            text: "Validator found an error",
-            validator: errors.mapped()
-        });
-    } else {
+    const validatorErrors = isEmptyValidatorErrors(req);
+    if (validatorErrors) {
+        const { first_name, last_name, phonenumber } = req.body;
         const phonebook = {
-            first_name: trimmed_first_name,
-            last_name: trimmed_last_name,
-            phonenumber: trimmed_phonenumber,
+            first_name: sanitizeString(first_name),
+            last_name: sanitizeString(last_name),
+            phonenumber: sanitizeString(phonenumber),
         };
 
         try {
@@ -45,6 +21,8 @@ async function createPhonebook(req, res) {
         } catch (error) {
             return res.status(500).json({ error });
         }
+    } else {
+        return validatorErrors;
     }
 }
 
@@ -72,60 +50,38 @@ async function searchPhonebook(req, res) {
 }
 
 async function updatePhonebook(req, res) {
-    const { id } = req.params.id;
-    const { first_name, last_name, phonenumber } = req.body;
-    const trimmed_first_name = first_name ?  first_name.trim() : '';
-    const trimmed_last_name = last_name ? last_name.trim() : '';
-    const trimmed_phonenumber = phonenumber ? phonenumber.trim() : '';
-    if (trimmed_first_name.length === 0 || trimmed_last_name.length === 0 || !trimmed_phonenumber) {
-        return res.status(400).json({
-            text: "Invalid request"
-        });
-    }
+    const validatorErrors = isEmptyValidatorErrors(req);
+    if (validatorErrors) {
+        const { id } = req.params.id;
+        const { first_name, last_name, phonenumber } = req.body;
 
-    let regex = /^[+][\d]{2}[ ][\d]{2}[ ][\d]{6,}/g;
-    if (!(trimmed_phonenumber.match(regex))) {
-        return res.status(400).json({
-            text: "Invalid phonenumber"
-        });
-    }
-    if (typeof trimmed_first_name !== 'string' || typeof trimmed_last_name !== 'string') {
-        return res.status(400).json({
-            text: "First_name and last_name must be strings"
-        });
-    }
-    const phonebook = {
-        first_name: trimmed_first_name,
-        last_name: trimmed_last_name,
-        phonenumber: trimmed_phonenumber,
-    };
+        const phonebook = {
+            first_name: sanitizeString(first_name),
+            last_name: sanitizeString(last_name),
+            phonenumber: sanitizeString(phonenumber),
+        };
 
-    try {
-        const findPhonebook = await Phonebook.findOne({
-            first_name: trimmed_first_name,
-            last_name: trimmed_last_name,
-            phonenumber: trimmed_phonenumber,
-        });
-        if (findPhonebook) {
-            return res.status(400).json({
-                text: "This entry already exists"
+        try {
+            foundPhonebook = new Phonebook.findOne(
+                {_id: id}
+            );
+            if (foundPhonebook.length === 0) {
+                return res.status(400).json({
+                    text: "Phonebook doesn't exist in database",
+                });
+            }
+            const phonebookObject = await foundPhonebook.updateOne();
+            return res.status(200).json({
+                text: "Phonebook updated successfully",
             });
+        } catch (error) {
+            return res.status(500).json({ error });
         }
-    } catch (error) {
-        return res.status(500).json({ error });
-    }
-    try {
-        const phonebookData = new Phonebook(phonebook);
-        const phonebookObject = await phonebookData.save();
-        return res.status(200).json({
-            text: "Phonebook added successfully",
-        });
-    } catch (error) {
-        return res.status(500).json({ error });
+    } else {
+        return validatorErrors;
     }
 }
 
 exports.createPhonebook = createPhonebook;
 exports.searchPhonebook = searchPhonebook;
 exports.updatePhonebook = updatePhonebook;
-exports.alreadyExists = alreadyExists;

@@ -12,7 +12,7 @@ export class CreatePhonebook extends React.Component {
 
     send = async () => {
         let { first_name, last_name, phonenumber } = this.state;
-        first_name = first_name ? first_name.trim() : '';
+        const sanitized_first_name = first_name ? first_name.trim() : '';
         last_name = last_name ? last_name.trim() : '';
         phonenumber = phonenumber ? phonenumber.trim() : '';
         if (first_name.length === 0 || last_name.length === 0) {
