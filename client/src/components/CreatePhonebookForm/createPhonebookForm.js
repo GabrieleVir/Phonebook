@@ -17,9 +17,9 @@ export class CreatePhonebookForm extends React.Component {
         last_name = last_name ? sanitizeString(last_name.trim()) : '';
         phonenumber = phonenumber ? phonenumber.trim() : '';
         if (arePhonebookInputsValid(first_name, last_name, phonenumber)) {
-            const { data } = await API.create({ first_name, last_name, phonenumber })
-                .then(() => {
-                    window.flash(data['text']);
+            API.create({ first_name, last_name, phonenumber })
+                .then((response) => {
+                    window.flash(response['text']);
                     this.props.history.push('/')
                 }).catch(() => {
                     window.flash("The server responded with a 400 error", 'error');

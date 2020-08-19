@@ -17,14 +17,15 @@ export class UpdatePhonebookForm extends React.Component {
         first_name = first_name ? sanitizeString(first_name.trim()) : '';
         last_name = last_name ? sanitizeString(last_name.trim()) : '';
         phonenumber = phonenumber ? phonenumber.trim() : '';
-        arePhonebookInputsValid(first_name, last_name, phonenumber);
-        const { data } = await API.update(this.state.routeId, {first_name, last_name, phonenumber})
-            .then(() => {
-                window.flash(data['text']);
-                this.props.history.push('/')
-            }).catch(() => {
+        if (arePhonebookInputsValid(first_name, last_name, phonenumber)) {
+            API.update(this.state.routeId, {first_name, last_name, phonenumber})
+                .then((response) => {
+                    window.flash(response['text']);
+                    this.props.history.push('/')
+                }).catch(() => {
                 window.flash("The server responded with a 400 error", 'error');
             });
+        }
     };
 
     componentDidMount() {
