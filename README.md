@@ -4,7 +4,7 @@
 An application where you can create a phonebook.
 You can create and edit an entry but you cannot remove one. <em>"Les paroles volent les écrits restent"</em> as the saying goes.
 
-##Prerequesite
+## Prerequesite
 
 Nodejs: https://nodejs.org/en/download/
 
