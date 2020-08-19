@@ -7,9 +7,9 @@ mongoose
     .then(() => {
         console.log("Connected to mongoDB");
     })
-    .catch((e) => {
-        console.log("Error while DB connecting");
-        console.log(e);
+    .catch((err) => {
+        console.log("Error while connecting to the DB");
+        console.log(err);
     });
 
 mongoose.set('useCreateIndex', true);

@@ -15,6 +15,8 @@ async function createPhonebook(req, res) {
         first_name: sanitizeString(first_name),
         last_name: sanitizeString(last_name),
         phonenumber: phonenumber,
+        created_at: new Date.now(),
+        updated_at: new Date.now(),
     };
 
     try {
@@ -41,8 +43,8 @@ async function searchPhonebook(req, res) {
             { first_name: regexForMongodb },
             { last_name: regexForMongodb },
             { phonenumber: regexForMongodb },
-        ]
-    });
+        ],
+    },null, {sort: {created_at: -1}});
     if (Array.isArray(findPhonebook) && findPhonebook.length === 0) {
         return res.status(404).json({
             text: 'No entry found',
@@ -74,7 +76,8 @@ async function updatePhonebook(req, res) {
         const update = {
             first_name: phonebook.first_name,
             last_name: phonebook.last_name,
-            phonenumber: phonebook.phonenumber
+            phonenumber: phonebook.phonenumber,
+            updated_at: new Date.now(),
         };
         const phonebookObject = await Phonebook.findByIdAndUpdate(id, update);
         if (phonebookObject === null) {

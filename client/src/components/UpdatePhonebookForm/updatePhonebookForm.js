@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import {Button, FormGroup, FormControl, ControlLabel, Glyphicon} from "react-bootstrap";
 import API from "../../utils/API";
-import {sanitizeString} from '../../utils/Utils'
+import {sanitizeString, arePhonebookInputsValid} from '../../utils/Utils'
+import {Link} from "react-router-dom";
 
 export class UpdatePhonebookForm extends React.Component {
     state = {
@@ -16,23 +17,14 @@ export class UpdatePhonebookForm extends React.Component {
         first_name = first_name ? sanitizeString(first_name.trim()) : '';
         last_name = last_name ? sanitizeString(last_name.trim()) : '';
         phonenumber = phonenumber ? phonenumber.trim() : '';
-        if (first_name.length === 0 || last_name.length === 0) {
-            window.flash("First name or last name empty, please insert a first name and last name", 'error');
-            return ;
-        }
-        let regex = /^[+][\d]{2}[ ][\d]{2}[ ][\d]{6,}/g;
-        if (!phonenumber.match(regex)) {
-            window.flash("The format of the phonenumber is not respected: It has to start with the character '+' " +
-                "followed by 2 digits then a space, 2 digits, a final space and at least 6 digits. Ex:+32 98 23232d32", 'error');
-            return ;
-        }
-        try {
-            const { data } = await API.update(this.state.routeId, {first_name, last_name, phonenumber});
-            window.flash(data['text']);
-            this.props.history.push('/')
-        } catch (error) {
-            window.flash("The server responded with a 400 error", 'error');
-        }
+        arePhonebookInputsValid(first_name, last_name, phonenumber);
+        const { data } = await API.update(this.state.routeId, {first_name, last_name, phonenumber})
+            .then(() => {
+                window.flash(data['text']);
+                this.props.history.push('/')
+            }).catch(() => {
+                window.flash("The server responded with a 400 error", 'error');
+            });
     };
 
     componentDidMount() {
@@ -41,10 +33,10 @@ export class UpdatePhonebookForm extends React.Component {
                 await this.setState({first_name: response.data.phonebook.first_name})
                 await this.setState({last_name: response.data.phonebook.last_name})
                 await this.setState({phonenumber: response.data.phonebook.phonenumber})
-            }).catch((e => {
+            }).catch(() => {
                 window.flash('Error on fetching the phonebook entry', 'error');
                 this.props.history.push('/');
-            }));
+            });
     }
 
     handleChange = (event) => {
@@ -57,6 +49,7 @@ export class UpdatePhonebookForm extends React.Component {
 
         return (
             <div className="Phonebook">
+                <Link to="/"><Glyphicon glyph="glyphicon glyphicon-arrow-left" /> Back</Link>
                 <FormGroup controlId="first_name" bsSize="large">
                     <ControlLabel>First name</ControlLabel>
                     <FormControl

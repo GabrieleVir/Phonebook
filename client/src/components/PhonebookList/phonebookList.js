@@ -2,33 +2,39 @@ import React from "react";
 import API from "../../utils/API";
 import {Link} from "react-router-dom";
 import {PhonebookItem} from "../PhonebookItem/phonebookItem";
-import { Table } from "react-bootstrap";
+import {Button, Table, FormGroup, FormControl, Glyphicon} from "react-bootstrap";
 
 
 export class PhonebookList extends React.Component {
     state = {
-        search: "",
+        searchTerm: "",
         phonebooks: [],
     };
 
     componentDidMount = async () => {
-        const results = await API.fetchBySearch("");
-        if (results.status === 200) {
-            await this.setState({phonebooks: results.data.phonebooks.reverse()})
-        }
+        await API.fetchBySearch("")
+            .then(async (response) => {
+                await this.setState({phonebooks: response.data.phonebooks})
+            }).catch(() => {
+                window.flash("There has been a problem when fetching the phonebooks", "error");
+            });
     }
 
-    recieve = async () => {
-        const { search } = this.state.search;
-        try {
-            const results = await API.fetchBySearch("");
-            if (results.status === 200) {
-                this.setState({phonebooks: results.data.phonebooks});
-            }
-        } catch (error) {
-            window.flash("No entry found", 'error');
-        }
+    search = () => {
+        const searchTerm = this.state.searchTerm;
+        API.fetchBySearch(searchTerm)
+            .then((response) => {
+                this.setState({phonebooks: response.data.phonebooks});
+            }).catch(() => {
+                window.flash("No entry found", 'error');
+            });
     };
+    handleKeyPress = (event) => {
+        if (event.charCode === 13) {
+            const searchTerm = this.state.searchTerm;
+            this.search(searchTerm);
+        }
+    }
     handleChange = (event) => {
         this.setState({
             [event.target.id]: event.target.value
@@ -36,10 +42,42 @@ export class PhonebookList extends React.Component {
     };
     render() {
         const phonebooks = this.state.phonebooks;
+        const searchTerm = this.state.searchTerm;
 
         return (
             <div className="PhonebookList">
-                <Link to="/create">Click to create an entry</Link>
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-6 no-padding">
+                            <div className="pull-left">
+                                <div className="col-md-9">
+                                    <FormGroup controlId="searchTerm">
+                                        <FormControl
+                                            autoFocus
+                                            placeholder="Type your search here"
+                                            type="text"
+                                            value={searchTerm}
+                                            onChange={this.handleChange}
+                                            onKeyPress={this.handleKeyPress}
+                                        />
+                                    </FormGroup>
+                                </div>
+                                <div className="col-md-3 no-padding">
+                                    <Button onClick={this.search} type="submit">
+                                        <Glyphicon glyph="glyphicon glyphicon-search" />
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-6 no-padding">
+                            <div className="pull-right">
+                                <Link to="/create">
+                                    <Button bsStyle="primary"><Glyphicon glyph="glyphicon glyphicon-plus" /></Button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <Table striped bordered hover>
                     <thead>
                     <tr>
