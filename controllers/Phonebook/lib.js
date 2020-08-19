@@ -15,8 +15,8 @@ async function createPhonebook(req, res) {
         first_name: sanitizeString(first_name),
         last_name: sanitizeString(last_name),
         phonenumber: phonenumber,
-        created_at: new Date.now(),
-        updated_at: new Date.now(),
+        created_at: Date.now(),
+        updated_at: Date.now(),
     };
 
     try {
@@ -77,7 +77,7 @@ async function updatePhonebook(req, res) {
             first_name: phonebook.first_name,
             last_name: phonebook.last_name,
             phonenumber: phonebook.phonenumber,
-            updated_at: new Date.now(),
+            updated_at: Date.now(),
         };
         const phonebookObject = await Phonebook.findByIdAndUpdate(id, update);
         if (phonebookObject === null) {
