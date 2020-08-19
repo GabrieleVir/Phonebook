@@ -20,6 +20,6 @@ const phonebookSchema = mongoose.Schema(
     },
     { timestamps: { createdAt: "created_at" } }
 );
-const PhonebookModel = mongoose.model('CreatePhonebook', phonebookSchema);
+const PhonebookModel = mongoose.model('Phonebook', phonebookSchema);
 
 module.exports = PhonebookModel;

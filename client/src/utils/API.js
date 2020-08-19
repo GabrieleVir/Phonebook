@@ -13,5 +13,8 @@ export default {
     },
     fetch: function(id) {
         return axios.get(`${burl}/phonebook/fetch/` + id, {headers: headers});
+    },
+    update: function(id, update) {
+        return axios.put(`${burl}/phonebook/edit/` + id, update, {headers: headers});
     }
 };

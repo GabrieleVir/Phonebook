@@ -1,10 +1,11 @@
 import React from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import API from "../../utils/API";
-import {sanitizeString} from '../../utils/utils'
+import {sanitizeString} from '../../utils/Utils'
 
 export class UpdatePhonebookForm extends React.Component {
     state = {
+        routeId: this.props.match.params.id,
         first_name: "",
         last_name: "",
         phonenumber: "",
@@ -26,7 +27,7 @@ export class UpdatePhonebookForm extends React.Component {
             return ;
         }
         try {
-            const { data } = await API.update({first_name, last_name, phonenumber});
+            const { data } = await API.update(this.state.routeId, {first_name, last_name, phonenumber});
             window.flash(data['text']);
             this.props.history.push('/')
         } catch (error) {
@@ -35,11 +36,15 @@ export class UpdatePhonebookForm extends React.Component {
     };
 
     componentDidMount() {
-        const handle = this.props.match.params;
-        API.fetch(handle.id)
-            .then((phonebook) => {
-                this.setState(() => ({ phonebook }))
-            })
+        API.fetch(this.state.routeId)
+            .then(async (response) => {
+                await this.setState({first_name: response.data.phonebook.first_name})
+                await this.setState({last_name: response.data.phonebook.last_name})
+                await this.setState({phonenumber: response.data.phonebook.phonenumber})
+            }).catch((e => {
+                window.flash('Error on fetching the phonebook entry', 'error');
+                this.props.history.push('/');
+            }));
     }
 
     handleChange = (event) => {
@@ -48,7 +53,7 @@ export class UpdatePhonebookForm extends React.Component {
         });
     };
     render() {
-        const phonebook = this.state;
+        const { first_name, last_name, phonenumber } = this.state;
 
         return (
             <div className="Phonebook">
@@ -56,17 +61,15 @@ export class UpdatePhonebookForm extends React.Component {
                     <ControlLabel>First name</ControlLabel>
                     <FormControl
                         autoFocus
-                        placeholder="Ex:John"
                         type="text"
-                        value={phonebook.first_name}
+                        value={first_name}
                         onChange={this.handleChange}
                     />
                 </FormGroup>
                 <FormGroup controlId="last_name" bsSize="large">
                     <ControlLabel>Last name</ControlLabel>
                     <FormControl
-                        placeholder="Ex:Smith"
-                        value={phonebook.last_name}
+                        value={last_name}
                         onChange={this.handleChange}
                         type="text"
                     />
@@ -74,7 +77,7 @@ export class UpdatePhonebookForm extends React.Component {
                 <FormGroup controlId="phonenumber" bsSize="large">
                     <ControlLabel>Phonenumber</ControlLabel>
                     <FormControl
-                        value={phonebook.phonenumber}
+                        value={phonenumber}
                         onChange={this.handleChange}
                         type="text"
                     />

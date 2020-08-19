@@ -12,7 +12,9 @@ mongoose
         console.log(e);
     });
 
-mongoose.set('useCreateIndex', true)
+mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
+
 const app = express();
 
 const urlencodedParser = bodyParser.urlencoded({
@@ -38,9 +40,8 @@ app.use(function(req, res, next) {
 });
 
 const router = express.Router();
-app.use("/Phonebook", router);
+app.use("/phonebook", router);
 require(__dirname + "/controllers/phonebookController")(router);
 
-//Définition et mise en place du port d'écoute
 const port = 8800;
 app.listen(port, () => console.log(`Listening on port ${port}`));

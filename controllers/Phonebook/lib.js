@@ -1,5 +1,5 @@
 const Phonebook = require("../../schema/schemaPhonebook.js");
-const { sanitizeString } = require('./utils.js');
+const { sanitizeString } = require('../utils/Utils.js');
 const {validationResult} = require('express-validator');
 
 async function createPhonebook(req, res) {
@@ -61,7 +61,7 @@ async function updatePhonebook(req, res) {
             validator: errors.mapped()
         });
     }
-    const id = sanitizeString(req.params.id);
+    const id = req.params.id;
     const { first_name, last_name, phonenumber } = req.body;
 
     const phonebook = {
@@ -83,7 +83,7 @@ async function updatePhonebook(req, res) {
             });
         }
         return res.status(200).json({
-            text: "CreatePhonebookForm updated successfully",
+            text: "Phonebook updated successfully",
         });
     } catch (error) {
         return res.status(500).json({

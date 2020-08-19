@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import API from "../../utils/API";
-import {sanitizeString} from '../../utils/utils'
+import {sanitizeString} from '../../utils/Utils'
 
 export class CreatePhonebookForm extends React.Component {
     state = {
