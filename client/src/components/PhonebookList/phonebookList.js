@@ -36,10 +36,8 @@ export class PhonebookList extends React.Component {
             });
     };
     handleKeyPress = (event) => {
-        if (event.charCode === 13) {
-            const searchTerm = this.state.searchTerm;
-            this.search(searchTerm);
-        }
+        const searchTerm = this.state.searchTerm;
+        this.search(searchTerm);
     }
     handleChange = (event) => {
         this.setState({
