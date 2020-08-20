@@ -1,5 +1,6 @@
 import React from "react";
-import {Button, FormGroup, FormControl, ControlLabel, Glyphicon} from "react-bootstrap";
+import {FaArrowLeft} from "react-icons/fa"
+import {Form, Button} from "react-bootstrap";
 import API from "../../utils/API";
 import {sanitizeString, arePhonebookInputsValid} from '../../utils/Utils'
 import {Link} from "react-router-dom";
@@ -19,7 +20,7 @@ export class CreatePhonebookForm extends React.Component {
         if (arePhonebookInputsValid(first_name, last_name, phonenumber)) {
             API.create({ first_name, last_name, phonenumber })
                 .then((response) => {
-                    window.flash(response['text']);
+                    window.flash(response.data['text']);
                     this.props.history.push('/')
                 }).catch(() => {
                     window.flash("The server responded with a 400 error", 'error');
@@ -35,35 +36,35 @@ export class CreatePhonebookForm extends React.Component {
         const { first_name, last_name, phonenumber } = this.state;
         return (
             <div className="Phonebook">
-                <Link to="/"><Glyphicon glyph="glyphicon glyphicon-arrow-left" /> Back</Link>
-                <FormGroup controlId="first_name" bsSize="large">
-                    <ControlLabel>First name</ControlLabel>
-                    <FormControl
+                <Link to="/"><FaArrowLeft /> Back</Link>
+                <Form.Group controlId="first_name" bsSize="large">
+                    <Form.Label>First name</Form.Label>
+                    <Form.Control
                     autoFocus
                     placeholder="Ex:John"
                     type="text"
                     value={first_name}
                     onChange={this.handleChange}
                     />
-                </FormGroup>
-                <FormGroup controlId="last_name" bsSize="large">
-                    <ControlLabel>Last name</ControlLabel>
-                    <FormControl
+                </Form.Group>
+                <Form.Group controlId="last_name" bsSize="large">
+                    <Form.Label>Last name</Form.Label>
+                    <Form.Control
                         placeholder="Ex:Smith"
                         value={last_name}
                         onChange={this.handleChange}
                         type="text"
                     />
-                </FormGroup>
-                <FormGroup controlId="phonenumber" bsSize="large">
-                    <ControlLabel>Phonenumber</ControlLabel>
-                    <FormControl
+                </Form.Group>
+                <Form.Group controlId="phonenumber" bsSize="large">
+                    <Form.Label>Phonenumber</Form.Label>
+                    <Form.Control
                         placeholder="Ex:+32 03 020202"
                         value={phonenumber}
                         onChange={this.handleChange}
                         type="text"
                     />
-                </FormGroup>
+                </Form.Group>
                 <Button onClick={this.send} block bsSize="large" type="submit">
                     Add
                 </Button>

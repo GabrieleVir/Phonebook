@@ -2,8 +2,8 @@ import React from "react";
 import API from "../../utils/API";
 import {Link} from "react-router-dom";
 import {PhonebookItem} from "../PhonebookItem/phonebookItem";
-import {Button, Table, FormGroup, FormControl, Glyphicon} from "react-bootstrap";
-
+import {Button, Form, Table} from "react-bootstrap";
+import {FaPlusCircle, FaSearch} from "react-icons/fa";
 
 export class PhonebookList extends React.Component {
     state = {
@@ -51,8 +51,8 @@ export class PhonebookList extends React.Component {
                         <div className="col-md-6 no-padding">
                             <div className="pull-left">
                                 <div className="col-md-9">
-                                    <FormGroup controlId="searchTerm">
-                                        <FormControl
+                                    <Form.Group controlId="searchTerm">
+                                        <Form.Control
                                             autoFocus
                                             placeholder="Type your search here"
                                             type="text"
@@ -60,11 +60,11 @@ export class PhonebookList extends React.Component {
                                             onChange={this.handleChange}
                                             onKeyPress={this.handleKeyPress}
                                         />
-                                    </FormGroup>
+                                    </Form.Group>
                                 </div>
                                 <div className="col-md-3 no-padding">
                                     <Button onClick={this.search} type="submit">
-                                        <Glyphicon glyph="glyphicon glyphicon-search" />
+                                        <FaSearch />
                                     </Button>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@ export class PhonebookList extends React.Component {
                         <div className="col-md-6 no-padding">
                             <div className="pull-right">
                                 <Link to="/create">
-                                    <Button bsStyle="primary"><Glyphicon glyph="glyphicon glyphicon-plus" /></Button>
+                                    <Button bsStyle="primary"><FaPlusCircle /></Button>
                                 </Link>
                             </div>
                         </div>

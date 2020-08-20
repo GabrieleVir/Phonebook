@@ -1,8 +1,9 @@
 import React from "react";
-import {Button, FormGroup, FormControl, ControlLabel, Glyphicon} from "react-bootstrap";
+import {Form, Button} from "react-bootstrap";
 import API from "../../utils/API";
 import {sanitizeString, arePhonebookInputsValid} from '../../utils/Utils'
 import {Link} from "react-router-dom";
+import {FaArrowLeft} from "react-icons/fa";
 
 export class UpdatePhonebookForm extends React.Component {
     state = {
@@ -50,32 +51,32 @@ export class UpdatePhonebookForm extends React.Component {
 
         return (
             <div className="Phonebook">
-                <Link to="/"><Glyphicon glyph="glyphicon glyphicon-arrow-left" /> Back</Link>
-                <FormGroup controlId="first_name" bsSize="large">
-                    <ControlLabel>First name</ControlLabel>
-                    <FormControl
+                <Link to="/"><FaArrowLeft /> Back</Link>
+                <Form.Group controlId="first_name" bsSize="large">
+                    <Form.Label>First name</Form.Label>
+                    <Form.Control
                         autoFocus
                         type="text"
                         value={first_name}
                         onChange={this.handleChange}
                     />
-                </FormGroup>
-                <FormGroup controlId="last_name" bsSize="large">
-                    <ControlLabel>Last name</ControlLabel>
-                    <FormControl
+                </Form.Group>
+                <Form.Group controlId="last_name" bsSize="large">
+                    <Form.Label>Last name</Form.Label>
+                    <Form.Control
                         value={last_name}
                         onChange={this.handleChange}
                         type="text"
                     />
-                </FormGroup>
-                <FormGroup controlId="phonenumber" bsSize="large">
-                    <ControlLabel>Phonenumber</ControlLabel>
-                    <FormControl
+                </Form.Group>
+                <Form.Group controlId="phonenumber" bsSize="large">
+                    <Form.Label>Phonenumber</Form.Label>
+                    <Form.Control
                         value={phonenumber}
                         onChange={this.handleChange}
                         type="text"
                     />
-                </FormGroup>
+                </Form.Group>
                 <Button onClick={this.update} block bsSize="large" type="submit">
                     Update
                 </Button>
