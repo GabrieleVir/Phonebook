@@ -52,7 +52,7 @@ export class PhonebookList extends React.Component {
             <div className="PhonebookList">
             <Container fluid>
                 <Row>
-                    <Col md={3} >
+                    <Col md={3} sm={6}>
                         <Form.Group controlId="searchTerm">
                             <Form.Control
                                 autoFocus
@@ -64,16 +64,16 @@ export class PhonebookList extends React.Component {
                             />
                         </Form.Group>
                     </Col>
-                    <Col md={9}>
+                    <Col md={9} sm={6}>
                         <Row>
-                             <Col md={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                             <Col md={3} sm={5} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                  <div className="float-left">
                                      <Button onClick={this.search} type="submit" variant="outline-success">
                                          <FaSearch />Search
                                      </Button>
                                  </div>
                              </Col>
-                            <Col md={{span: 6, offset: 3}} style={{ paddingLeft: 0, paddingRight: 0, }}>
+                            <Col md={{span: 6, offset: 3}} sm={{span:3, offset: 4}} style={{ paddingLeft: 0, paddingRight: 0, }}>
                                 <div className="float-right">
                                      <Link to="/create">
                                          <Button variant="primary"><FaPlusCircle /></Button>
