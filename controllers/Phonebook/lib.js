@@ -23,7 +23,7 @@ async function createPhonebook(req, res) {
         const phonebookData = new Phonebook(phonebook);
         await phonebookData.save();
         return res.status(200).json({
-            text: "CreatePhonebookForm added successfully",
+            text: "Phonebook added successfully",
         });
     } catch (error) {
         return res.status(500).json({

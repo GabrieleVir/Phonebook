@@ -1,6 +1,7 @@
 {
-  "name": "Phonebook-Mern",
+  "name": "phonebook",
   "version": "1.0.0",
+  "licence": "Apache-2.0",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -14,6 +15,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/GabrieleVir/repository.git"
+    "url": "git://github.com/GabrieleVir/Phonebook.git"
   }
 }
