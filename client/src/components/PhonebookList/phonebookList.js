@@ -1,9 +1,15 @@
 import React from "react";
 import API from "../../utils/API";
 import {Link} from "react-router-dom";
-import {PhonebookItem} from "../PhonebookItem/phonebookItem";
-import {Button, Form, Table} from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Table from "react-bootstrap/Table";
+import Container from "react-bootstrap/Container";
 import {FaPlusCircle, FaSearch} from "react-icons/fa";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import {PhonebookItem} from "../PhonebookItem/phonebookItem";
+import Spinner from "react-bootstrap/Spinner";
 
 export class PhonebookList extends React.Component {
     state = {
@@ -13,12 +19,12 @@ export class PhonebookList extends React.Component {
 
     componentDidMount = async () => {
         await API.fetchBySearch("")
-            .then(async (response) => {
-                await this.setState({phonebooks: response.data.phonebooks})
+            .then((response) => {
+                this.setState({phonebooks: response.data.phonebooks})
             }).catch(() => {
                 window.flash("There has been a problem when fetching the phonebooks", "error");
             });
-    }
+    };
 
     search = () => {
         const searchTerm = this.state.searchTerm;
@@ -26,7 +32,7 @@ export class PhonebookList extends React.Component {
             .then((response) => {
                 this.setState({phonebooks: response.data.phonebooks});
             }).catch(async () => {
-                this.setState({phonebooks: []});
+                this.setState({phonebooks: [{noEntry: true}]});
             });
     };
     handleKeyPress = (event) => {
@@ -46,38 +52,40 @@ export class PhonebookList extends React.Component {
 
         return (
             <div className="PhonebookList">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-6 no-padding">
-                            <div className="pull-left">
-                                <div className="col-md-9">
-                                    <Form.Group controlId="searchTerm">
-                                        <Form.Control
-                                            autoFocus
-                                            placeholder="Type your search here"
-                                            type="text"
-                                            value={searchTerm}
-                                            onChange={this.handleChange}
-                                            onKeyPress={this.handleKeyPress}
-                                        />
-                                    </Form.Group>
+            <Container fluid>
+                <Row>
+                    <Col md={3} >
+                        <Form.Group controlId="searchTerm">
+                            <Form.Control
+                                autoFocus
+                                placeholder="Type your search here"
+                                type="text"
+                                value={searchTerm}
+                                onChange={this.handleChange}
+                                onKeyPress={this.handleKeyPress}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col md={9}>
+                        <Row>
+                             <Col md={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                 <div className="float-left">
+                                     <Button onClick={this.search} type="submit" variant="outline-success">
+                                         <FaSearch />Search
+                                     </Button>
+                                 </div>
+                             </Col>
+                            <Col md={{span: 6, offset: 3}} style={{ paddingLeft: 0, paddingRight: 0, }}>
+                                <div className="float-right">
+                                     <Link to="/create">
+                                         <Button variant="primary"><FaPlusCircle /></Button>
+                                     </Link>
                                 </div>
-                                <div className="col-md-3 no-padding">
-                                    <Button onClick={this.search} type="submit">
-                                        <FaSearch />
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-6 no-padding">
-                            <div className="pull-right">
-                                <Link to="/create">
-                                    <Button variant="primary"><FaPlusCircle /></Button>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
                 <Table striped bordered hover>
                     <thead>
                     <tr>
@@ -88,19 +96,19 @@ export class PhonebookList extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                {
-                    phonebooks.length > 0 ? (
-                        phonebooks.map((_phonebook, _index) => {
-                            return (
-                                <PhonebookItem key={_index} phonebook={_phonebook}/>
-                            )
-                        })
-                    ) : (
-                        <tr>
-                            <td colSpan={4}>No entry found</td>
-                        </tr>
-                    )
-                }
+                    {
+                        phonebooks.length > 0 ? (
+                            phonebooks.map((_phonebook, _index) => {
+                                return (
+                                    <PhonebookItem key={_index} phonebook={_phonebook}/>
+                                )
+                            })
+                        ) : (
+                            <tr>
+                                <td colSpan={4}><Spinner animation="border" variant="primary"/></td>
+                            </tr>
+                        )
+                    }
                     </tbody>
                 </Table>
             </div>

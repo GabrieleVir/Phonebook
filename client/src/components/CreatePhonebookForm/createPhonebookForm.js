@@ -1,6 +1,7 @@
 import React from "react";
 import {FaArrowLeft} from "react-icons/fa"
-import {Form, Button} from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import API from "../../utils/API";
 import {sanitizeString, arePhonebookInputsValid} from '../../utils/Utils'
 import {Link} from "react-router-dom";

@@ -1,5 +1,6 @@
 import React from "react";
-import {Form, Button} from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import API from "../../utils/API";
 import {sanitizeString, arePhonebookInputsValid} from '../../utils/Utils'
 import {Link} from "react-router-dom";
@@ -21,7 +22,7 @@ export class UpdatePhonebookForm extends React.Component {
         if (arePhonebookInputsValid(first_name, last_name, phonenumber)) {
             API.update(this.state.routeId, {first_name, last_name, phonenumber})
                 .then((response) => {
-                    window.flash(response['text']);
+                    window.flash(response.data['text']);
                     this.props.history.push('/')
                 }).catch(() => {
                 window.flash("The server responded with a 400 error", 'error');
