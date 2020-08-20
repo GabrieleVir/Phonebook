@@ -10,8 +10,8 @@ import Bus from './utils/Bus';
 window.flash = (message, type="success") => Bus.emit('flash', ({message, type}));
 
 class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             phonebooks: []
         };
