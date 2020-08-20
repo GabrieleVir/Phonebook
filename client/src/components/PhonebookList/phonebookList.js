@@ -25,8 +25,8 @@ export class PhonebookList extends React.Component {
         API.fetchBySearch(searchTerm)
             .then((response) => {
                 this.setState({phonebooks: response.data.phonebooks});
-            }).catch(() => {
-                window.flash("No entry found", 'error');
+            }).catch(async () => {
+                this.setState({phonebooks: []});
             });
     };
     handleKeyPress = (event) => {
