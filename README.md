@@ -35,4 +35,4 @@ Client command: ```cd client``` then ```yarn start```
 
 Here you go!
 
-PS: If you have any questions, don't hesitate to create a issue with the question label!
+PS: If you have any questions, don't hesitate to create an issue with the question label!
