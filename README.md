@@ -23,7 +23,9 @@ Mongodb: https://docs.mongodb.com/manual/installation/
 
 - Change directory to the client folder inside phonebook-app ```cd client```
 
-- Install using node package manager the packages for the client-side ```yarn install```
+- Install using yarn the packages for the client-side ```yarn install```
+
+- (Optional) Build the app for a faster experience! ```yarn build```
 
 ## Launch
 
@@ -35,4 +37,4 @@ Client command: ```cd client``` then ```yarn start```
 
 Here you go!
 
-PS: If you have any questions, don't hesitate to create a issue with the question label!
+PS: If you have any questions, don't hesitate to create an issue with the question label!
