@@ -52,7 +52,7 @@ export class UpdatePhonebookForm extends React.Component {
         return (
             <div className="Phonebook">
                 <Link to="/"><FaArrowLeft /> Back</Link>
-                <Form.Group controlId="first_name" bsSize="large">
+                <Form.Group controlId="first_name" bssize="large">
                     <Form.Label>First name</Form.Label>
                     <Form.Control
                         autoFocus
@@ -61,7 +61,7 @@ export class UpdatePhonebookForm extends React.Component {
                         onChange={this.handleChange}
                     />
                 </Form.Group>
-                <Form.Group controlId="last_name" bsSize="large">
+                <Form.Group controlId="last_name" bssize="large">
                     <Form.Label>Last name</Form.Label>
                     <Form.Control
                         value={last_name}
@@ -69,7 +69,7 @@ export class UpdatePhonebookForm extends React.Component {
                         type="text"
                     />
                 </Form.Group>
-                <Form.Group controlId="phonenumber" bsSize="large">
+                <Form.Group controlId="phonenumber" bssize="large">
                     <Form.Label>Phonenumber</Form.Label>
                     <Form.Control
                         value={phonenumber}
@@ -77,7 +77,7 @@ export class UpdatePhonebookForm extends React.Component {
                         type="text"
                     />
                 </Form.Group>
-                <Button onClick={this.update} block bsSize="large" type="submit">
+                <Button onClick={this.update} block bssize="large" type="submit">
                     Update
                 </Button>
             </div>

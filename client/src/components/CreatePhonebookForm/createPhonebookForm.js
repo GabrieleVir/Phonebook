@@ -37,7 +37,7 @@ export class CreatePhonebookForm extends React.Component {
         return (
             <div className="Phonebook">
                 <Link to="/"><FaArrowLeft /> Back</Link>
-                <Form.Group controlId="first_name" bsSize="large">
+                <Form.Group controlId="first_name" bssize="large">
                     <Form.Label>First name</Form.Label>
                     <Form.Control
                     autoFocus
@@ -47,7 +47,7 @@ export class CreatePhonebookForm extends React.Component {
                     onChange={this.handleChange}
                     />
                 </Form.Group>
-                <Form.Group controlId="last_name" bsSize="large">
+                <Form.Group controlId="last_name" bssize="large">
                     <Form.Label>Last name</Form.Label>
                     <Form.Control
                         placeholder="Ex:Smith"
@@ -56,7 +56,7 @@ export class CreatePhonebookForm extends React.Component {
                         type="text"
                     />
                 </Form.Group>
-                <Form.Group controlId="phonenumber" bsSize="large">
+                <Form.Group controlId="phonenumber" bssize="large">
                     <Form.Label>Phonenumber</Form.Label>
                     <Form.Control
                         placeholder="Ex:+32 03 020202"
@@ -65,7 +65,7 @@ export class CreatePhonebookForm extends React.Component {
                         type="text"
                     />
                 </Form.Group>
-                <Button onClick={this.send} block bsSize="large" type="submit">
+                <Button onClick={this.send} block bssize="large" type="submit">
                     Add
                 </Button>
             </div>

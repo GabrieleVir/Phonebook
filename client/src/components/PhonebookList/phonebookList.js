@@ -72,7 +72,7 @@ export class PhonebookList extends React.Component {
                         <div className="col-md-6 no-padding">
                             <div className="pull-right">
                                 <Link to="/create">
-                                    <Button bsStyle="primary"><FaPlusCircle /></Button>
+                                    <Button variant="primary"><FaPlusCircle /></Button>
                                 </Link>
                             </div>
                         </div>
